@@ -2,6 +2,7 @@ package com.example.mapa
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
@@ -32,10 +33,12 @@ class MainActivity : AppCompatActivity() {
                     .title(place.name)
                     .snippet(place.address)
                     .position(place.latLng)
+                    .icon(BitmapHelper.vectorToBitmap(this, R.drawable.ic_baseline_school_24, ContextCompat.getColor(this, R.color.purple_700)))
             )
         }
     }
 }
+
 data class Place(
     val name: String,
     val latLng: LatLng,
