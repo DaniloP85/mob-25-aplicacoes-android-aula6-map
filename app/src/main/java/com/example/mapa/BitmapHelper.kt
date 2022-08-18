@@ -17,9 +17,9 @@ object BitmapHelper {
         @ColorInt color: Int
     ): BitmapDescriptor {
         val vectorDrawable = ResourcesCompat.getDrawable(context.resources, id, null)
-        if (vectorDrawable == null){
-            return BitmapDescriptorFactory.defaultMarker()
-        }
+
+        if (vectorDrawable == null) return BitmapDescriptorFactory.defaultMarker()
+
         val bitmap = Bitmap.createBitmap(
             vectorDrawable.intrinsicWidth,
             vectorDrawable.intrinsicWidth,

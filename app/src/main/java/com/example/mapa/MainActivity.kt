@@ -3,9 +3,11 @@ package com.example.mapa
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.content.ContextCompat
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 
 class MainActivity : AppCompatActivity() {
@@ -23,6 +25,21 @@ class MainActivity : AppCompatActivity() {
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
         mapFragment.getMapAsync {
             googleMap -> addMarkers(googleMap)
+
+            googleMap.setOnMapLoadedCallback {
+                val bounds = LatLngBounds.builder()
+                places.forEach {
+                    bounds.include(it.latLng)
+                }
+                /*
+                * Funçao que move a tela para as posicoes desejadas
+                *
+                * é necessario passar dois parametros sendo o primeiro as posicoes em lat e long
+                *
+                * e o tamanho do zoom, que nesse exemplo estamos enviado 50
+                * */
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds.build(), 50))
+            }
         }
     }
 
@@ -37,11 +54,12 @@ class MainActivity : AppCompatActivity() {
             )
         }
     }
+
+    data class Place(
+        val name: String,
+        val latLng: LatLng,
+        val address: String,
+        val rating: Float
+    )
 }
 
-data class Place(
-    val name: String,
-    val latLng: LatLng,
-    val address: String,
-    val rating: Float
-)
